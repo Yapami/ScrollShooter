@@ -1,0 +1,14 @@
+{
+	"rules": {
+		"lives": 1,
+		"enemies_start_speed": 600,
+		"base_points_for_kill": 10,
+		"max_enemies": 8
+	},
+
+	"pawns_symbols": {
+		"enemy_symbol": "W",
+		"player_symbol": "^",
+		"bullet_symbol": "|"
+	}
+}
