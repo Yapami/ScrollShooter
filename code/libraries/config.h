@@ -10,7 +10,7 @@ namespace config
 {
 static json get_config()
 {
-    std::ifstream file("config/config.json");
+    std::ifstream file("../config/config.json");
     if (!file.is_open())
     {
         std::cerr << "Error: Failed to open config.json file" << std::endl;
