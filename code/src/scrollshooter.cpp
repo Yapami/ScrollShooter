@@ -1,4 +1,4 @@
-#include "gamemode.h"
+#include "scrollshooter.h"
 #include "config.h"
 #include "pawns.h"
 #include <cmath>
@@ -11,11 +11,12 @@ void scroll_shooter::set_start_values()
     enemies.clear();
     bullets.clear();
 
-    start_time = clock();
-    timeElapsed = 0;
+    elapsed_timer::get_instance().refresh_timer();
 
-    lives = config_namespace::lives; // TODO: Maybe remake it
+    lives = config::lives;
     score = 0;
+
+    elapsed_time_from_last_enemy_spawn = 0;
 
     if (player != nullptr)
     {
@@ -32,7 +33,7 @@ void scroll_shooter::init_game()
     noecho();
     curs_set(0);
     keypad(stdscr, TRUE);
-    timeout(Timeout); // TODO: maybe should be deleted
+    timeout(timeout);
 
     set_start_values();
 }
@@ -52,7 +53,7 @@ void scroll_shooter::draw_all()
 
     mvprintw(1, 0, "Lives: %d", lives);
     mvprintw(0, 0, "Score: %d", score);
-    mvprintw(0, COLS - 10, "Time: %d", timeElapsed);
+    mvprintw(0, COLS - 10, "Time: %d", elapsed_timer::get_instance().get_elapsed_time_seconds());
 }
 
 void scroll_shooter::update_all()
@@ -60,7 +61,7 @@ void scroll_shooter::update_all()
     for (auto it = enemies.begin(); it != enemies.end();)
     {
         it->update();
-        if (it->y >= LINES - 1)
+        if (it->y >= LINES - 2)
         {
             --lives;
             it = enemies.erase(it);
@@ -112,19 +113,14 @@ void scroll_shooter::update_all()
         }
     }
 
-    clock_t currentTime = clock();
-    if ((currentTime - start_time) / 100000 /*CLOCKS_PER_SEC*/ >= 1) // TODO: make it normal
-    {
-        timeElapsed++;
-        start_time = currentTime;
-    }
+    elapsed_timer::get_instance().update_timer();
 }
 
 void scroll_shooter::spawn_enemy()
 {
-    if (enemies.size() < max_enemies && is_spawn_of_enemy_available())
+    if (is_spawn_of_enemy_available())
     {
-        enemies.emplace_back(Enemy(rand() % COLS, 0)); // TODO: figure out how emplace_back works
+        enemies.emplace_back(Enemy(rand() % COLS, 0));
     }
 }
 
@@ -140,7 +136,7 @@ void scroll_shooter::handle_input()
         player->move_right();
         break;
     case ' ':
-        bullets.emplace_back(player->x, (player->y) - 1);
+        bullets.emplace_back(player->x, (player->y));
         break;
     case 'q':
         endwin();
@@ -148,29 +144,39 @@ void scroll_shooter::handle_input()
     }
 }
 
-void scroll_shooter::print_final_text()
+void scroll_shooter::show_finish_screen()
 {
+    std::string game_over_str = "GAME OVER!";
+    std::string score_str = "Score: " + std::to_string(score);
+    std::string time_str =
+        "Time: " + std::to_string(elapsed_timer::get_instance().get_elapsed_time_seconds());
+    std::string quit_str = "Press 'q' to quit";
+    std::string restart = "Press 'r' to restart";
+
     clear();
-    mvprintw(LINES / 2, COLS / 2 - 5, "GAME OVER!");
-    mvprintw(LINES / 2 + 1, COLS / 2 - 5, "Score: %d", score);
-    mvprintw(LINES / 2 + 2, COLS / 2 - 5, "Time: %ld", start_time);
-    mvprintw(LINES / 2 + 5, COLS / 2 - 5, "Press any key to restart");
-    mvprintw(LINES / 2 + 6, COLS / 2 - 5, "Press 'q' to quit");
-    mvprintw(LINES / 2 + 7, COLS / 2 - 5, "Press 'r' to restart");
+    mvprintw(LINES / 2 - 4, COLS / 2 - game_over_str.size() / 2, "%s", game_over_str.c_str());
+    mvprintw(LINES / 2 - 4 + 1, COLS / 2 - score_str.size() / 2, "%s", score_str.c_str());
+    mvprintw(LINES / 2 - 4 + 2, COLS / 2 - time_str.size() / 2, "%s", time_str.c_str());
+    mvprintw(LINES / 2 - 4 + 5, COLS / 2 - quit_str.size() / 2, "%s", quit_str.c_str());
+    mvprintw(LINES / 2 - 4 + 6, COLS / 2 - restart.size() / 2, "%s", restart.c_str());
     refresh();
 }
 
 bool scroll_shooter::is_spawn_of_enemy_available()
 {
-    static clock_t currentTime = clock();
-
-    clock_t t = clock();
-
-    double d = ((static_cast<double>(t) - static_cast<double>(currentTime)) / 100000.0);
-
-    if (d >= 0.7) // TODO: remake to config
+    if (enemies.size() >= max_enemies)
     {
-        currentTime = clock();
+        return false;
+    }
+
+    float current_time =
+        static_cast<float>(elapsed_timer::get_instance().get_elapsed_time_milliseconds());
+
+    if ((current_time - elapsed_time_from_last_enemy_spawn) / 1000.0 >=
+        config::enemies_spawn_frequency)
+    {
+        elapsed_time_from_last_enemy_spawn =
+            elapsed_timer::get_instance().get_elapsed_time_milliseconds();
         return true;
     }
 
@@ -223,9 +229,8 @@ void scroll_shooter::increase_score(uint16_t count)
 
 scroll_shooter::scroll_shooter()
 {
-    lives = config_namespace::lives;
-    points_for_kill = config_namespace::base_points_for_kill;
-    max_enemies = config_namespace::max_enemies;
+    points_for_kill = config::base_points_for_kill;
+    max_enemies = config::max_enemies;
 
     srand(time(0));
 }
@@ -241,7 +246,7 @@ void scroll_shooter::start_game()
     {
         init_game();
         game_loop();
-        print_final_text();
+        show_finish_screen();
     } while (is_game_finish());
 
     endwin();

@@ -1,4 +1,4 @@
-#include "gamemode.h"
+#include "scrollshooter.h"
 
 int main()
 {

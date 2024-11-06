@@ -1,9 +1,11 @@
 {
 	"rules": {
 		"lives": 1,
-		"enemies_start_speed": 600,
+		"enemies_start_speed": 0.7,
 		"base_points_for_kill": 10,
-		"max_enemies": 8
+		"max_enemies": 8,
+		"enemies_spawn_frequency": 1.5,
+		"bullets_speed": 0.1
 	},
 
 	"pawns_symbols": {

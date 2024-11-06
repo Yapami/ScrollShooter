@@ -1,5 +1,6 @@
 #pragma once
 
+#include "timer.h"
 #include <ncurses.h>
 #include <string>
 
@@ -41,8 +42,8 @@ public:
     void update() override;
 
 private:
-    int speed;
-    int t = 0;
+    float speed = 0.0;
+    float elapsed_time_from_last_movement = 0.0;
 };
 
 class Bullet : public Entity
@@ -53,5 +54,6 @@ public:
     void update() override;
 
 private:
-    int a = 0;
+    float speed = 0.0;
+    float elapsed_time_from_last_movement = 0.0;
 };

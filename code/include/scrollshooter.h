@@ -1,6 +1,8 @@
 #pragma once
 
 #include "pawns.h"
+#include "timer.h"
+#include <chrono>
 #include <vector>
 
 class scroll_shooter
@@ -21,7 +23,7 @@ private:
     void handle_input();
 
     void set_start_values();
-    void print_final_text();
+    void show_finish_screen();
     void increase_score(uint16_t count);
 
     bool is_spawn_of_enemy_available();
@@ -39,9 +41,10 @@ private:
     int lives;
 
     int max_enemies;
+    float enemies_spawn_frequency;
+    float elapsed_time_from_last_enemy_spawn = 0;
 
-    int timeElapsed = 0;
-    clock_t start_time;
+    const int timeout = 1;
 
-    const int Timeout = 1;
+    elapsed_timer& timer = elapsed_timer::get_instance();
 };

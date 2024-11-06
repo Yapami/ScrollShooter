@@ -10,18 +10,23 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Указываем список исходных файлов
 set(SOURCES
-    src/main.cpp
-    src/gamemode.cpp
-    src/pawns.cpp
+    code/src/main.cpp
+    code/src/scrollshooter.cpp
+    code/src/pawns.cpp
 )
 
 set(HEADERS
-    src/gamemode.h
-    src/pawns.h
+    code/include/scrollshooter.h
+    code/include/pawns.h
+)
+
+set(LIBRARIES
+    code/libraries/config.h
+    code/libraries/timer.h
 )
 
 # Создаём исполняемый файл
-add_executable(ScrollShooter ${SOURCES} ${HEADERS})
+add_executable(ScrollShooter ${SOURCES} ${HEADERS} ${LIBRARIES})
 
 # Находим и подключаем библиотеку ncurses
 find_package(Curses REQUIRED)
@@ -33,3 +38,9 @@ target_link_libraries(ScrollShooter nlohmann_json::nlohmann_json)
 
 # Включаем директории заголовочных файлов
 target_include_directories(ScrollShooter PRIVATE ${CURSES_INCLUDE_DIR})
+
+target_include_directories(ScrollShooter PRIVATE 
+    ${CURSES_INCLUDE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/code/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/code/libraries
+)
