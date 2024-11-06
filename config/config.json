@@ -1,6 +1,6 @@
 {
 	"rules": {
-		"lives": 1,
+		"lives": 2,
 		"enemies_start_speed": 0.7,
 		"base_points_for_kill": 10,
 		"max_enemies": 8,

@@ -26,7 +26,7 @@ void scroll_shooter::set_start_values()
     player = new Player(COLS / 2, LINES - 2);
 }
 
-void scroll_shooter::init_game()
+void scroll_shooter::init_ncurses()
 {
     initscr();
     cbreak();
@@ -34,7 +34,11 @@ void scroll_shooter::init_game()
     curs_set(0);
     keypad(stdscr, TRUE);
     timeout(timeout);
+}
 
+void scroll_shooter::init_game()
+{
+    init_ncurses();
     set_start_values();
 }
 
@@ -183,7 +187,7 @@ bool scroll_shooter::is_spawn_of_enemy_available()
     return false;
 }
 
-bool scroll_shooter::is_game_finish()
+bool scroll_shooter::is_game_finish() const
 {
     timeout(-1);
     while (true)
@@ -199,7 +203,7 @@ bool scroll_shooter::is_game_finish()
     }
 }
 
-bool scroll_shooter::is_player_alive()
+bool scroll_shooter::is_player_alive() const
 {
     return lives > 0;
 }
