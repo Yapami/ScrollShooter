@@ -1,15 +1,11 @@
 #pragma once
 
-#include "timer.h"
-#include <ncurses.h>
 #include <string>
 
-class Entity
+class entity
 {
 public:
-    int x, y;
-
-    Entity(int start_x, int start_y)
+    entity(int start_x, int start_y)
         : x(start_x)
         , y(start_y)
     {
@@ -18,14 +14,17 @@ public:
     virtual void update() = 0;
     void draw() const;
 
+public:
+    int x, y;
+
 protected:
     std::string symbol;
 };
 
-class Player : public Entity
+class player : public entity
 {
 public:
-    Player(int start_x, int start_y);
+    player(int start_x, int start_y);
 
     void update() override
     {
@@ -34,10 +33,10 @@ public:
     void move_right();
 };
 
-class Enemy : public Entity
+class enemy : public entity
 {
 public:
-    Enemy(int start_x, int start_y);
+    enemy(int start_x, int start_y);
 
     void update() override;
 
@@ -46,10 +45,10 @@ private:
     float elapsed_time_from_last_movement = 0.0;
 };
 
-class Bullet : public Entity
+class bullet : public entity
 {
 public:
-    Bullet(int start_x, int start_y);
+    bullet(int start_x, int start_y);
 
     void update() override;
 

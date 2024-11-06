@@ -1,4 +1,5 @@
 #pragma once
+
 #include <chrono>
 
 class elapsed_timer
@@ -34,7 +35,7 @@ public:
 
     int get_elapsed_time_seconds() const
     {
-        return elapsed_time / 1000;
+        return elapsed_time / milliseconds_in_second;
     }
 
 private:
@@ -48,6 +49,10 @@ private:
     elapsed_timer(elapsed_timer&&) = delete;
     elapsed_timer& operator=(elapsed_timer&&) = delete;
 
+public:
+    static constexpr float milliseconds_in_second = 1000.0;
+
+private:
     std::chrono::high_resolution_clock::time_point start;
 
     int elapsed_time = 0;

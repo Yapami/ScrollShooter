@@ -1,14 +1,15 @@
 #pragma once
 
 #include "pawns.h"
-#include "timer.h"
+#include <cstdint>
+#include <memory>
 #include <vector>
 
 class scroll_shooter
 {
 public:
     scroll_shooter();
-    ~scroll_shooter();
+    ~scroll_shooter() = default;
 
     void start_game();
 
@@ -32,17 +33,17 @@ private:
     bool is_player_alive() const;
 
 private:
-    Player* player = nullptr;
+    std::unique_ptr<player> main_player = nullptr;
 
-    std::vector<Enemy> enemies;
-    std::vector<Bullet> bullets;
+    std::vector<enemy> enemies;
+    std::vector<bullet> bullets;
 
-    int points_for_kill;
-    int score = 0;
-    int lives;
+    uint16_t points_for_kill = 0;
+    uint32_t score = 0;
+    uint32_t lives = 0;
 
-    int max_enemies;
+    uint16_t max_enemies = 0;
     float elapsed_time_from_last_enemy_spawn = 0;
 
-    const int timeout = 1;
+    const uint8_t timeout = 1;
 };

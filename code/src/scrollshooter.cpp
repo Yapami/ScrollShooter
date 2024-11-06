@@ -1,9 +1,6 @@
 #include "scrollshooter.h"
 #include "config.h"
-#include "pawns.h"
-#include <cmath>
-#include <cstdlib>
-#include <ctime>
+#include "timer.h"
 #include <ncurses.h>
 
 void scroll_shooter::set_start_values()
@@ -18,12 +15,7 @@ void scroll_shooter::set_start_values()
 
     elapsed_time_from_last_enemy_spawn = 0;
 
-    if (player != nullptr)
-    {
-        delete player;
-    }
-
-    player = new Player(COLS / 2, LINES - 2);
+    main_player.reset(new player(COLS / 2, LINES - 2));
 }
 
 void scroll_shooter::init_ncurses()
@@ -44,13 +36,13 @@ void scroll_shooter::init_game()
 
 void scroll_shooter::draw_all()
 {
-    player->draw();
-    for (Enemy& enemy : enemies)
+    main_player->draw();
+    for (enemy& enemy : enemies)
     {
         enemy.draw();
     }
 
-    for (Bullet& bullet : bullets)
+    for (bullet& bullet : bullets)
     {
         bullet.draw();
     }
@@ -124,7 +116,7 @@ void scroll_shooter::spawn_enemy()
 {
     if (is_spawn_of_enemy_available())
     {
-        enemies.emplace_back(Enemy(rand() % COLS, 0));
+        enemies.emplace_back(enemy(rand() % COLS, 0));
     }
 }
 
@@ -134,13 +126,13 @@ void scroll_shooter::handle_input()
     switch (ch)
     {
     case KEY_LEFT:
-        player->move_left();
+        main_player->move_left();
         break;
     case KEY_RIGHT:
-        player->move_right();
+        main_player->move_right();
         break;
     case ' ':
-        bullets.emplace_back(player->x, (player->y));
+        bullets.emplace_back(main_player->x, (main_player->y));
         break;
     case 'q':
         endwin();
@@ -176,7 +168,8 @@ bool scroll_shooter::is_spawn_of_enemy_available()
     float current_time =
         static_cast<float>(elapsed_timer::get_instance().get_elapsed_time_milliseconds());
 
-    if ((current_time - elapsed_time_from_last_enemy_spawn) / 1000.0 >=
+    if ((current_time - elapsed_time_from_last_enemy_spawn) /
+            elapsed_timer::milliseconds_in_second >=
         config::enemies_spawn_frequency)
     {
         elapsed_time_from_last_enemy_spawn =
@@ -237,11 +230,6 @@ scroll_shooter::scroll_shooter()
     max_enemies = config::max_enemies;
 
     srand(time(0));
-}
-
-scroll_shooter::~scroll_shooter()
-{
-    delete player;
 }
 
 void scroll_shooter::start_game()
