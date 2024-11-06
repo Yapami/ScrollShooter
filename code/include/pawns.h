@@ -1,5 +1,6 @@
 #pragma once
 
+#include "timer.h"
 #include <string>
 
 class entity
@@ -21,6 +22,27 @@ protected:
     std::string symbol;
 };
 
+class npc_entity : public entity
+{
+public:
+    npc_entity(int start_x, int start_y)
+        : entity(start_x, start_x)
+        , timer(&elapsed_timer::get_instance())
+    {
+    }
+
+    void update() override;
+
+protected:
+    virtual void move() = 0;
+
+protected:
+    float speed = 0.0;
+    float elapsed_time_from_last_movement = 0.0;
+
+    elapsed_timer* timer;
+};
+
 class player : public entity
 {
 public:
@@ -33,26 +55,20 @@ public:
     void move_right();
 };
 
-class enemy : public entity
+class enemy : public npc_entity
 {
 public:
     enemy(int start_x, int start_y);
 
-    void update() override;
-
 private:
-    float speed = 0.0;
-    float elapsed_time_from_last_movement = 0.0;
+    void move() override;
 };
 
-class bullet : public entity
+class bullet : public npc_entity
 {
 public:
     bullet(int start_x, int start_y);
 
-    void update() override;
-
 private:
-    float speed = 0.0;
-    float elapsed_time_from_last_movement = 0.0;
+    void move() override;
 };

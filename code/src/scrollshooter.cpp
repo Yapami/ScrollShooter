@@ -2,6 +2,7 @@
 #include "config.h"
 #include "timer.h"
 #include <ncurses.h>
+#include <random>
 
 void scroll_shooter::set_start_values()
 {
@@ -90,7 +91,7 @@ void scroll_shooter::update_all()
             {
                 enemy_it = enemies.erase(enemy_it);
                 hit = true;
-                increase_score(points_for_kill);
+                add_points_to_score(points_for_kill);
                 break;
             }
             else
@@ -116,7 +117,10 @@ void scroll_shooter::spawn_enemy()
 {
     if (is_spawn_of_enemy_available())
     {
-        enemies.emplace_back(enemy(rand() % COLS, 0));
+        static std::mt19937 rng(std::random_device{}());
+        std::uniform_int_distribution<int> dist(0, COLS - 1);
+
+        enemies.emplace_back(enemy(dist(rng), 0));
     }
 }
 
@@ -219,7 +223,7 @@ void scroll_shooter::game_loop()
     }
 }
 
-void scroll_shooter::increase_score(uint16_t count)
+void scroll_shooter::add_points_to_score(uint16_t count)
 {
     score += count;
 }
@@ -228,8 +232,6 @@ scroll_shooter::scroll_shooter()
 {
     points_for_kill = config::base_points_for_kill;
     max_enemies = config::max_enemies;
-
-    srand(time(0));
 }
 
 void scroll_shooter::start_game()

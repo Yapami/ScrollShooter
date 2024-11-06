@@ -26,7 +26,7 @@ private:
 
     void set_start_values();
     void show_finish_screen() const;
-    void increase_score(uint16_t count);
+    void add_points_to_score(uint16_t count);
 
     bool is_spawn_of_enemy_available();
     bool is_game_finish() const;
