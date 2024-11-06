@@ -144,14 +144,14 @@ void scroll_shooter::handle_input()
     }
 }
 
-void scroll_shooter::show_finish_screen()
+void scroll_shooter::show_finish_screen() const
 {
-    std::string game_over_str = "GAME OVER!";
-    std::string score_str = "Score: " + std::to_string(score);
-    std::string time_str =
+    const std::string game_over_str = "GAME OVER!";
+    const std::string score_str = "Score: " + std::to_string(score);
+    const std::string time_str =
         "Time: " + std::to_string(elapsed_timer::get_instance().get_elapsed_time_seconds());
-    std::string quit_str = "Press 'q' to quit";
-    std::string restart = "Press 'r' to restart";
+    const std::string quit_str = "Press 'q' to quit";
+    const std::string restart = "Press 'r' to restart";
 
     clear();
     mvprintw(LINES / 2 - 4, COLS / 2 - game_over_str.size() / 2, "%s", game_over_str.c_str());

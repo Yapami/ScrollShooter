@@ -23,7 +23,7 @@ private:
     void handle_input();
 
     void set_start_values();
-    void show_finish_screen();
+    void show_finish_screen() const;
     void increase_score(uint16_t count);
 
     bool is_spawn_of_enemy_available();

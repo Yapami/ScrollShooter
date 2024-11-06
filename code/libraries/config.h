@@ -13,6 +13,7 @@ static json get_config()
     std::ifstream file("../config/config.json");
     if (!file.is_open())
     {
+        std::cout << "Current working directory: " << std::filesystem::current_path() << std::endl;
         std::cerr << "Error: Failed to open config.json file" << std::endl;
         std::exit(EXIT_FAILURE);
         return 1;
