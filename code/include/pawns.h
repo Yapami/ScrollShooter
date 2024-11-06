@@ -26,7 +26,7 @@ class npc_entity : public entity
 {
 public:
     npc_entity(int start_x, int start_y)
-        : entity(start_x, start_x)
+        : entity(start_x, start_y)
         , timer(&elapsed_timer::get_instance())
     {
     }
@@ -38,7 +38,7 @@ protected:
 
 protected:
     float speed = 0.0;
-    float elapsed_time_from_last_movement = 0.0;
+    float last_movement_time = 0.0;
 
     elapsed_timer* timer;
 };

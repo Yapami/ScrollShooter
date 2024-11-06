@@ -56,10 +56,9 @@ void npc_entity::update()
     }
 
     float current_time = static_cast<float>(timer->get_elapsed_time_milliseconds());
-    if ((current_time - elapsed_time_from_last_movement) / elapsed_timer::milliseconds_in_second >=
-        speed)
+    if ((current_time - last_movement_time) / elapsed_timer::milliseconds_in_second >= speed)
     {
-        elapsed_time_from_last_movement = timer->get_elapsed_time_milliseconds();
+        last_movement_time = timer->get_elapsed_time_milliseconds();
 
         move();
     }
