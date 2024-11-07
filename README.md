@@ -1,5 +1,5 @@
 # ScrollShooter
-## To start, "git", "g++", "cmake", "ncurses" and "nlohmann" libraries must be installed.
+## To start, "git", "g++", "cmake", "ncurses" and "nlohmann" must be installed.
 
 Installation:
 
