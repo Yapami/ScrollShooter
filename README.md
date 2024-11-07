@@ -47,18 +47,65 @@ CMake:
 brew install cmake
 ```
 
+### Windows:
+1. open PowerShell as administrator
+2. in PowerShell:
+```
+wsl --install
+```
 
-## After that, clone this repository and go to ScrollShooter folder. In ScrollShooter folder:
+3. reboot your computer
+
+4. Open the "Start" menu and find Ubuntu (if Ubuntu did not start automatically after computer reboot)
+
+5. Enter any name in the terminal
+
+6. Enter password
+
+Then, call all commands above in order:
+```
+sudo apt update
+```
+```
+sudo apt install git
+```
+```
+sudo apt install g++
+```
+```
+sudo apt-get install libncurses5-dev libncursesw5-dev
+```
+```
+sudo apt install nlohmann-json3-dev
+```
+```
+sudo apt install cmake
+```
+
+
+## After all preparation actions on any system:
+```
+git clone https://github.com/Yapami/ScrollShooter.git
+```
+```
+cd ScrollShooter/
+```
 ```
 mkdir build && cd build
+```
+```
 cmake ..
+```
+```
 cmake --build .
+```
+```
 ./ScrollShooter
 ```
 
 
 
-## Base inputs in game:
+## Base inputs in the game:
 
   '->': move right
 
