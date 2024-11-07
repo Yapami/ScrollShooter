@@ -28,12 +28,12 @@ public:
         elapsed_time = duration.count();
     }
 
-    int get_elapsed_time_milliseconds() const
+    uint32_t get_elapsed_time_milliseconds() const
     {
         return elapsed_time;
     }
 
-    int get_elapsed_time_seconds() const
+    uint32_t get_elapsed_time_seconds() const
     {
         return elapsed_time / milliseconds_in_second;
     }
@@ -55,5 +55,5 @@ public:
 private:
     std::chrono::high_resolution_clock::time_point start;
 
-    int elapsed_time = 0;
+    uint32_t elapsed_time = 0;
 };

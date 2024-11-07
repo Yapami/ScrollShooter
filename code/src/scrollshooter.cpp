@@ -58,7 +58,7 @@ void scroll_shooter::update_all()
     for (auto it = enemies.begin(); it != enemies.end();)
     {
         it->update();
-        if (it->y >= LINES - 2)
+        if (it->get_y() >= LINES - 2)
         {
             --lives;
             it = enemies.erase(it);
@@ -72,7 +72,7 @@ void scroll_shooter::update_all()
     for (auto it = bullets.begin(); it != bullets.end();)
     {
         it->update();
-        if (it->y >= LINES)
+        if (it->get_y() >= LINES)
         {
             it = bullets.erase(it);
         }
@@ -87,7 +87,7 @@ void scroll_shooter::update_all()
         bool hit = false;
         for (auto enemy_it = enemies.begin(); enemy_it != enemies.end();)
         {
-            if (bullet_it->x == enemy_it->x && bullet_it->y == enemy_it->y)
+            if (bullet_it->get_x() == enemy_it->get_x() && bullet_it->get_y() == enemy_it->get_y())
             {
                 enemy_it = enemies.erase(enemy_it);
                 hit = true;
@@ -136,7 +136,7 @@ void scroll_shooter::handle_input()
         main_player->move_right();
         break;
     case ' ':
-        bullets.emplace_back(main_player->x, (main_player->y));
+        bullets.emplace_back(main_player->get_x(), (main_player->get_y()));
         break;
     case 'q':
         endwin();

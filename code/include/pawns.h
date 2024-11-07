@@ -11,14 +11,17 @@ public:
         , y(start_y)
     {
     }
+    virtual ~entity() = default;
 
     virtual void update() = 0;
     void draw() const;
 
-public:
-    int x, y;
+    int get_x() const;
+    int get_y() const;
 
 protected:
+    int x, y;
+
     std::string symbol;
 };
 

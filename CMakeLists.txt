@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(ScrollShooter)
+project(ScrollShooter LANGUAGES CXX)
 
 set(SOURCES
     code/src/main.cpp
@@ -8,25 +8,13 @@ set(SOURCES
     code/src/pawns.cpp
 )
 
-set(HEADERS
-    code/include/scrollshooter.h
-    code/include/pawns.h
-)
-
-set(LIBRARIES
-    code/libraries/config.h
-    code/libraries/timer.h
-)
-
-add_executable(ScrollShooter ${SOURCES} ${HEADERS} ${LIBRARIES})
+add_executable(ScrollShooter ${SOURCES})
 
 find_package(Curses REQUIRED)
-target_link_libraries(ScrollShooter ${CURSES_LIBRARIES})
+target_link_libraries(ScrollShooter PRIVATE ${CURSES_LIBRARIES})
 
 find_package(nlohmann_json 3.2.0 REQUIRED)
-target_link_libraries(ScrollShooter nlohmann_json::nlohmann_json)
-
-target_include_directories(ScrollShooter PRIVATE ${CURSES_INCLUDE_DIR})
+target_link_libraries(ScrollShooter PRIVATE nlohmann_json::nlohmann_json)
 
 target_include_directories(ScrollShooter PRIVATE 
     ${CURSES_INCLUDE_DIR}

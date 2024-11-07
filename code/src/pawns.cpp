@@ -8,6 +8,16 @@ void entity::draw() const
     mvprintw(y, x, "%s", symbol.c_str());
 }
 
+int entity::get_x() const
+{
+    return x;
+}
+
+int entity::get_y() const
+{
+    return y;
+}
+
 player::player(int start_x, int start_y)
     : entity(start_x, start_y)
 {
@@ -52,13 +62,14 @@ void npc_entity::update()
 {
     if (timer == nullptr)
     {
+        throw std::runtime_error("Error: Timer does not exist.");
         return;
     }
 
     float current_time = static_cast<float>(timer->get_elapsed_time_milliseconds());
     if ((current_time - last_movement_time) / elapsed_timer::milliseconds_in_second >= speed)
     {
-        last_movement_time = timer->get_elapsed_time_milliseconds();
+        last_movement_time = current_time;
 
         move();
     }

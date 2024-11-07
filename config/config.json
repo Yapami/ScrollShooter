@@ -7,7 +7,6 @@
 		"enemies_spawn_frequency": 1.5,
 		"bullets_speed": 0.1
 	},
-
 	"pawns_symbols": {
 		"enemy_symbol": "W",
 		"player_symbol": "^",
