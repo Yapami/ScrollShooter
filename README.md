@@ -1,24 +1,29 @@
 # ScrollShooter
-## To start, "cmake", "ncurses" and "nlohmann" libraries must be installed.
+## To start, "git", "g++", "cmake", "ncurses" and "nlohmann" libraries must be installed.
 
 Installation:
 
 ### Linux:
 
-ncurses: 
+ncurses:
+```
+sudo apt update
+```
 ```
 sudo apt-get install libncurses5-dev libncursesw5-dev
 ```
 nlohmann: 
 ```
-sudo apt update
-```
-```
 sudo apt install nlohmann-json3-dev
 ```
-
-Also, CMake is needed:
-
+g++:
+```
+sudo apt install g++
+```
+git:
+```
+sudo apt install git
+```
 CMake:
 ```
 sudo apt update
@@ -46,6 +51,14 @@ CMake:
 ```
 brew install cmake
 ```
+g++:
+```
+brew install g++
+```
+git:
+```
+brew install git
+```
 
 ### Windows:
 1. open PowerShell as administrator
@@ -62,22 +75,28 @@ wsl --install
 
 6. Enter password
 
-Then, call all commands above in order:
+7. Then, call all commands above in order:
+
+git:
 ```
 sudo apt update
 ```
 ```
 sudo apt install git
 ```
+g++:
 ```
 sudo apt install g++
 ```
+ncurses:
 ```
 sudo apt-get install libncurses5-dev libncursesw5-dev
 ```
+nlohmann: 
 ```
 sudo apt install nlohmann-json3-dev
 ```
+cmake:
 ```
 sudo apt install cmake
 ```
