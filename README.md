@@ -1,8 +1,9 @@
-To start, "ncurses" and "nlohmann" libraries must be installed.
+# ScrollShooter
+## To start, "cmake", "ncurses" and "nlohmann" libraries must be installed.
 
 Installation:
 
-Linux:
+### Linux:
 
 ncurses: 
 ```
@@ -26,7 +27,7 @@ sudo apt update
 sudo apt install cmake
 ```
 
-MacOS:
+### MacOS:
 
 Firstly Brew must be installed:
 
@@ -43,14 +44,31 @@ brew install nlohmann-json
 ```
 CMake:
 ```
-brew install  cmake
+brew install cmake
 ```
 
 
-After that, go to ScrollShooter folder. In ScrollShooter folder:
+## After that, clone this repository and go to ScrollShooter folder. In ScrollShooter folder:
 ```
 mkdir build && cd build
 cmake ..
 cmake --build .
 ./ScrollShooter
 ```
+
+
+
+## Base inputs in game:
+
+  '->': move right
+
+  '<-': move left
+
+  ' ': shoot
+
+  'q': quit
+
+  'r': restart game after finish
+
+### Balance rules can be changed in config/config.json
+
