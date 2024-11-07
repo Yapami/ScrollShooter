@@ -169,15 +169,15 @@ bool scroll_shooter::is_spawn_of_enemy_available()
         return false;
     }
 
-    float current_time =
-        static_cast<float>(elapsed_timer::get_instance().get_elapsed_time_milliseconds());
+    static elapsed_timer& timer = elapsed_timer::get_instance();
+
+    float current_time = static_cast<float>(timer.get_elapsed_time_milliseconds());
 
     if ((current_time - elapsed_time_from_last_enemy_spawn) /
             elapsed_timer::milliseconds_in_second >=
         config::enemies_spawn_frequency)
     {
-        elapsed_time_from_last_enemy_spawn =
-            elapsed_timer::get_instance().get_elapsed_time_milliseconds();
+        elapsed_time_from_last_enemy_spawn = timer.get_elapsed_time_milliseconds();
         return true;
     }
 

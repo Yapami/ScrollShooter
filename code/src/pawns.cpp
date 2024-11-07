@@ -60,13 +60,9 @@ void bullet::move()
 
 void npc_entity::update()
 {
-    if (timer == nullptr)
-    {
-        throw std::runtime_error("Error: Timer does not exist.");
-        return;
-    }
+    static elapsed_timer& timer = elapsed_timer::get_instance();
 
-    float current_time = static_cast<float>(timer->get_elapsed_time_milliseconds());
+    float current_time = static_cast<float>(timer.get_elapsed_time_milliseconds());
     if ((current_time - last_movement_time) / elapsed_timer::milliseconds_in_second >= speed)
     {
         last_movement_time = current_time;
